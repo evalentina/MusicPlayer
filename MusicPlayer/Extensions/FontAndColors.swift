@@ -21,10 +21,6 @@ extension Color {
         return Color("PinkColor")
     }
     
-    static var pinkk : Color {
-        return Color("Pink")
-    }
-    
     static var lightGrayColor : Color {
         return Color("LightGrayColor")
     }

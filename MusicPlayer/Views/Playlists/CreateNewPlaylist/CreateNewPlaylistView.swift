@@ -14,6 +14,8 @@ struct CreateNewPlaylistView: View {
     @State private var selectedPhotoData: Data? = nil
     @State private var playlistName: String = ""
     @State private var description: String = ""
+    @State private var isShowingAddSong: Bool = false
+    @State private var addedSongs: [Song] = []
     
     @Binding var isShowingCreateNewPlaylist: Bool
     @Binding var playlists: [Playlist]
@@ -63,6 +65,8 @@ struct CreateNewPlaylistView: View {
                         .background(Color.white)
                     
                     addSongButton
+                 SongsCard(songs: $addedSongs)
+
                     
                 }
                 .padding(.horizontal, 20)
@@ -91,7 +95,7 @@ struct CreateNewPlaylistView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         
-                        playlists.append(Playlist( id: "0", playlistName: playlistName, playlistDescription: playlistDescription as? String, photoData: selectedPhotoData))
+                        playlists.append(Playlist( id: 0, playlistName: playlistName, playlistDescription: playlistDescription as? String, photoData: selectedPhotoData))
                         
                         isShowingCreateNewPlaylist.toggle()
                          
@@ -148,7 +152,7 @@ struct CreateNewPlaylistView: View {
     
     var addSongButton: some View {
         Button {
-            
+            isShowingAddSong = true
         } label: {
             HStack(spacing: 15) {
                 Image(systemName: "plus")
@@ -157,7 +161,9 @@ struct CreateNewPlaylistView: View {
                 Text("Add song")
                     .foregroundColor(.pinkColor)
             }
-            
+        }
+        .sheet(isPresented: $isShowingAddSong) {
+            AddSongsView(addedSongs: $addedSongs, isShowingAddSong: $isShowingAddSong)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -168,10 +174,10 @@ struct CreateNewPlaylist_Previews: PreviewProvider {
     static var previews: some View {
         CreateNewPlaylistView(isShowingCreateNewPlaylist: .constant(true), playlists: .constant(
             [
-            Playlist(id: "0", playlistName: "First", playlistDescription: "Checking how the playlist description works"),
-            Playlist(id: "1", playlistName: "Second", playlistDescription: "It's my second playlist"),
-            Playlist(id: "2", playlistName: "Third", playlistDescription: ""),
-            Playlist(id: "3", playlistName: "Fourth")
+            Playlist(id: 0, playlistName: "First", playlistDescription: "Checking how the playlist description works"),
+            Playlist(id: 1, playlistName: "Second", playlistDescription: "It's my second playlist"),
+            Playlist(id: 2, playlistName: "Third", playlistDescription: ""),
+            Playlist(id: 3, playlistName: "Fourth")
             ]
         ))
     }

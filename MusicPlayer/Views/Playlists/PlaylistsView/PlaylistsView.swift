@@ -47,14 +47,14 @@ struct PlaylistsView: View {
                     .font(.avenir(.medium, size: 20))
                     .foregroundColor(.white)
                 } else {
-                    AllPlaylistsView(isShowingCreateNewPlaylist: $isShowingCreateNewPlaylist, playlists: $playlists, searchingFor: $searchingFor)
+                    ExistingPlaylistsView(isShowingCreateNewPlaylist: $isShowingCreateNewPlaylist, playlists: $playlists, searchingFor: $searchingFor)
                 }
                 
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Text("Playlists")
-                        .font(.avenir(.heavy, size: 35))
+                        .font(.avenir(.heavy, size: 30))
                         .foregroundColor(Color.white)
                         .padding(.horizontal, 10)
                 }

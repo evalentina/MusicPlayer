@@ -8,13 +8,10 @@
 import Foundation
 
 struct Playlist: Identifiable, Hashable {
-    var id: String
+    var id: Int
     var playlistName: String
     var playlistDescription: String?
     var photoData: Data?
     
 }
 
-struct Song {
-    var name: String
-}
