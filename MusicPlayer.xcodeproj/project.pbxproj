@@ -33,6 +33,8 @@
 		C85800C529F3DA1900ADD0BB /* AddSongCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85800C429F3DA1900ADD0BB /* AddSongCard.swift */; };
 		C8AA0C8829F836E800FF93A4 /* LoginShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA0C8729F836E800FF93A4 /* LoginShape.swift */; };
 		C8AA0C8B29F8372400FF93A4 /* SignInShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA0C8A29F8372400FF93A4 /* SignInShape.swift */; };
+		C8AA0C8D29F83DA000FF93A4 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA0C8C29F83DA000FF93A4 /* Images.swift */; };
+		C8AA0C9029F83E6C00FF93A4 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA0C8F29F83E6C00FF93A4 /* LoginViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +65,8 @@
 		C85800C429F3DA1900ADD0BB /* AddSongCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSongCard.swift; sourceTree = "<group>"; };
 		C8AA0C8729F836E800FF93A4 /* LoginShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginShape.swift; sourceTree = "<group>"; };
 		C8AA0C8A29F8372400FF93A4 /* SignInShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInShape.swift; sourceTree = "<group>"; };
+		C8AA0C8C29F83DA000FF93A4 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		C8AA0C8F29F83E6C00FF93A4 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +126,7 @@
 				C813FB2F29F19C9A0004C71E /* MusicPlayerApp.swift */,
 				C813FB5E29F2DBB90004C71E /* Models */,
 				C813FB3F29F1A2CE0004C71E /* Views */,
+				C8AA0C8E29F83E5E00FF93A4 /* ViewModels */,
 				C813FB5529F1AEE70004C71E /* Extensions */,
 				C813FB3329F19C9B0004C71E /* Assets.xcassets */,
 				C813FB3529F19C9B0004C71E /* Preview Content */,
@@ -203,6 +208,7 @@
 			children = (
 				C813FB5629F1AEF70004C71E /* FontAndColors.swift */,
 				C813FB5829F1C8600004C71E /* ViewExtension.swift */,
+				C8AA0C8C29F83DA000FF93A4 /* Images.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -251,6 +257,14 @@
 				C8AA0C8A29F8372400FF93A4 /* SignInShape.swift */,
 			);
 			path = Shapes;
+			sourceTree = "<group>";
+		};
+		C8AA0C8E29F83E5E00FF93A4 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C8AA0C8F29F83E6C00FF93A4 /* LoginViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -331,6 +345,7 @@
 				C8AA0C8B29F8372400FF93A4 /* SignInShape.swift in Sources */,
 				C813FB6029F2DBC50004C71E /* Playlist.swift in Sources */,
 				C813FB3E29F1A2B60004C71E /* TabCurve.swift in Sources */,
+				C8AA0C9029F83E6C00FF93A4 /* LoginViewModel.swift in Sources */,
 				C813FB4429F1A3240004C71E /* TabBarItem.swift in Sources */,
 				C80B17C829F5040B00054F92 /* SignInView.swift in Sources */,
 				C813FB4A29F1A7610004C71E /* PlaylistsView.swift in Sources */,
@@ -346,6 +361,7 @@
 				C813FB6629F3C0A60004C71E /* Song.swift in Sources */,
 				C8AA0C8829F836E800FF93A4 /* LoginShape.swift in Sources */,
 				C80B17C629F4F63200054F92 /* LoginView.swift in Sources */,
+				C8AA0C8D29F83DA000FF93A4 /* Images.swift in Sources */,
 				C813FB4229F1A2F80004C71E /* CustomTabBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,9 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @State var email: String = ""
-    @State var password : String = ""
-    @State var isSecure: Bool = true
+    @StateObject private var viewModel = LoginViewModel()
     @Binding var index : Double
     
     var body: some View {
@@ -89,11 +87,11 @@ extension LoginView {
     
     var emailTextField : some View {
         HStack {
-            Image(systemName: "envelope.fill")
+            Image(systemName: ImageName.envelopeFill.rawValue)
                 .foregroundColor(.pinkColor)
             
-            TextField("", text: $email)
-                .placeholder(when: email.isEmpty, alignment: .leading) {
+            TextField("", text: $viewModel.email)
+                .placeholder(when: viewModel.email.isEmpty, alignment: .leading) {
                     Text("Enter your email...").foregroundColor(.lightGrayColor)
                         .font(.avenir(.medium, size: 20))
                 }
@@ -107,21 +105,21 @@ extension LoginView {
     var passwordTextField : some View {
         HStack {
             Button {
-                isSecure.toggle()
+                viewModel.isSecure.toggle()
             } label: {
-                if isSecure == true {
-                    Image(systemName: "eye.slash.fill")
+                if viewModel.isSecure == true {
+                    Image(systemName: ImageName.eyeSlash.rawValue)
                         .foregroundColor(.pinkColor)
                 } else {
-                    Image(systemName: "eye.fill")
+                    Image(systemName: ImageName.eye.rawValue)
                         .foregroundColor(.pinkColor)
                 }
             }
             
-            if isSecure {
+            if viewModel.isSecure {
                 
-                SecureField("", text: $password)
-                    .placeholder(when: password.isEmpty, alignment: .leading) {
+                SecureField("", text: $viewModel.password)
+                    .placeholder(when: viewModel.password.isEmpty, alignment: .leading) {
                         Text("Enter your password...").foregroundColor(.lightGrayColor)
                             .font(.avenir(.medium, size: 20))
                     }
@@ -129,8 +127,8 @@ extension LoginView {
                     .font(.avenir(.medium, size: 22))
             } else {
                 
-                TextField("", text: $password)
-                    .placeholder(when: password.isEmpty, alignment: .leading) {
+                TextField("", text: $viewModel.password)
+                    .placeholder(when: viewModel.password.isEmpty, alignment: .leading) {
                         Text("Enter your password...").foregroundColor(.lightGrayColor)
                             .font(.avenir(.medium, size: 20))
                     }
