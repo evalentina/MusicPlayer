@@ -27,7 +27,7 @@ struct CustomTabBarView: View {
         .padding()
         .frame(height: 90)
         .background(
-            Color.newPlaylistGrayColor
+            Color.signColor
                 .clipShape(TabCurve(tabPoint: getCurvePoint() - 15)))
         .cornerRadius(30)
     }

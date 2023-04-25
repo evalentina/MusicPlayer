@@ -73,5 +73,7 @@ struct AddSongCard: View {
 struct SongCard_Previews: PreviewProvider {
     static var previews: some View {
         AddSongCard(song: Song(id: 0, songName: "Low",author: "Lenny Kravitz", songImageData: "Lenny"), addedSongs: .constant([]))
+            .padding()
+            .previewLayout(.sizeThatFits)
     }
 }

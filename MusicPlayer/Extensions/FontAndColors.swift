@@ -16,6 +16,14 @@ extension Color {
     static var backgroundColor : Color {
         return Color("BackgroundColor")
     }
+    
+    static var signColor : Color {
+        return Color("SignColor")
+    }
+    
+    static var darkBlueColor : Color {
+        return Color("DarkBlueColor")
+    }
 
     static var pinkColor : Color {
         return Color("PinkColor")
