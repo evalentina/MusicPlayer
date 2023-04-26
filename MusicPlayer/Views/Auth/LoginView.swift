@@ -51,22 +51,7 @@ struct LoginView: View {
     }
 }
 
-extension LoginView {
-    
-    var forgotPassword : some View {
-        HStack {
-            Spacer()
-            Button {
-                
-            } label: {
-                Text("Forgot your password?")
-                    .underline()
-                    .foregroundColor(.lightGrayColor)
-                    .font(.avenir(.medium, size: 17))
-            }
-        }
-        .frame(height: 55)
-    }
+private extension LoginView {
     
     var loginText : some View {
         VStack {
@@ -87,7 +72,7 @@ extension LoginView {
     
     var emailTextField : some View {
         HStack {
-            Image(systemName: ImageName.envelopeFill.rawValue)
+            Image(systemName: ImageName.envelope.rawValue)
                 .foregroundColor(.pinkColor)
             
             TextField("", text: $viewModel.email)
@@ -136,6 +121,21 @@ extension LoginView {
                     .font(.avenir(.medium, size: 22))
             }
         }
+    }
+    
+    var forgotPassword : some View {
+        HStack {
+            Spacer()
+            Button {
+                
+            } label: {
+                Text("Forgot your password?")
+                    .underline()
+                    .foregroundColor(.lightGrayColor)
+                    .font(.avenir(.medium, size: 17))
+            }
+        }
+        .frame(height: 55)
     }
     
     var loginButton : some View {

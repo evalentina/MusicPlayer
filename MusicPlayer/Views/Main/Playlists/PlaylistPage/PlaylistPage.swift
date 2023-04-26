@@ -10,7 +10,7 @@ import SwiftUI
 struct PlaylistPage: View {
     
     @Binding var playlist: Playlist
-    //@Binding var songs: [Song]?
+    @Binding var songs: [Song]?
     
     var body: some View {
         NavigationView {
@@ -18,25 +18,7 @@ struct PlaylistPage: View {
                 
                 VStack(spacing: 30) {
                     
-                    if let photoData = playlist.photoData,
-                       let image = UIImage(data: photoData) {
-                        
-                        Image(uiImage: image)
-                            .resizable()
-                            .cornerRadius(30)
-                            .frame(width: 270, height: 250)
-                    } else {
-                        ZStack {
-                            if playlist.photoData == nil {
-                                Image("music")
-                                    .resizable()
-                                    .cornerRadius(30)
-                                    .frame(width: 270, height: 250)
-                                    .foregroundColor(.white)
-                            }
-                            
-                        }
-                    }
+                    playlistImage()
                     
                     playlistNameText
                     
@@ -47,9 +29,8 @@ struct PlaylistPage: View {
                     
                     Divider()
                         .background(Color.white)
-                    /*
-                    SongsCard(songs: $songs)
-                     */
+                    // Тут надо испрвавить CreateNewPlaylist скорее всего используя протокол 
+                    ReusableSongsCard(viewModel: CreateNewPlaylistViewModel())
                     
                 }
                 .padding(.horizontal, 20)
@@ -57,20 +38,16 @@ struct PlaylistPage: View {
                 .foregroundColor(.lightGrayColor)
             }
             .toolbar {
-                
-                ToolbarItem(placement: .principal) {
-                    Text(playlist.playlistName)
-                        .font(.avenir(.heavy, size: 25))
-                        .foregroundColor(.white)
-                        .padding(10)
-                }
-                
+                toolBarContent()
             }
             .frame(maxWidth: .infinity)
             .background(Color.newPlaylistColor.edgesIgnoringSafeArea(.all))
         }
-        
     }
+}
+
+private extension PlaylistPage {
+    
     var playlistNameText: some View {
         Text(playlist.playlistName)
             .foregroundColor(.lightGrayColor)
@@ -85,11 +62,43 @@ struct PlaylistPage: View {
             .lineLimit(1...4)
     }
     
+    @ViewBuilder
+    func playlistImage() -> some View {
+        if let photoData = playlist.photoData,
+           let image = UIImage(data: photoData) {
+            
+            Image(uiImage: image)
+                .resizable()
+                .cornerRadius(30)
+                .frame(width: 270, height: 250)
+        } else {
+            ZStack {
+                if playlist.photoData == nil {
+                    Image(ImageName.music.rawValue)
+                        .resizable()
+                        .cornerRadius(30)
+                        .frame(width: 270, height: 250)
+                        .foregroundColor(.white)
+                }
+                
+            }
+        }
+    }
+    
+    @ToolbarContentBuilder
+    func toolBarContent() -> some ToolbarContent {
+        ToolbarItem(placement: .principal) {
+            Text(playlist.playlistName)
+                .font(.avenir(.heavy, size: 25))
+                .foregroundColor(.white)
+                .padding(10)
+        }
+    }
     
 }
 
 struct PlaylistPage_Previews: PreviewProvider {
     static var previews: some View {
-        PlaylistPage(playlist:.constant( Playlist(id: 0, playlistName: "Name", playlistDescription: "Description")))
+        PlaylistPage(playlist:.constant( Playlist(id: 0, playlistName: "Name", playlistDescription: "Description")), songs: .constant(nil))
     }
 }

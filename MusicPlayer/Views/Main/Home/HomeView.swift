@@ -28,7 +28,7 @@ struct HomeView_Previews: PreviewProvider {
             
            HomeView()
             
-            CustomTabBarView(selectedTab: .constant(.home))
+            CustomTabBarView(viewModel: TabBarViewModel())
                 .padding(.horizontal)
                 .background(Color.backgroundColor)
         }

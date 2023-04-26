@@ -9,19 +9,20 @@ import SwiftUI
 
 struct CustomTabBarView: View {
     
-    @Binding var selectedTab: Tabs
+    @ObservedObject var viewModel: TabBarViewModel
+    
     @State private var tabPoints : [CGFloat] = []
     
     var body: some View {
         HStack(alignment: .center) {
             
-            TabBarItem(selectedTab: $selectedTab, tabPoints: $tabPoints, text: "Home", imageName: "house", tab: .home)
+            TabBarItem(viewModel: viewModel, tabPoints: $tabPoints, text: "Home", imageName: "house", tab: .home)
             
-            TabBarItem(selectedTab: $selectedTab, tabPoints: $tabPoints, text: "Playlists", imageName: "music.note.list", tab: .playlists)
+            TabBarItem(viewModel: viewModel, tabPoints: $tabPoints, text: "Playlists", imageName: "music.note.list", tab: .playlists)
             
-            TabBarItem(selectedTab: $selectedTab, tabPoints: $tabPoints, text: "Search", imageName: "magnifyingglass", tab: .search)
+            TabBarItem(viewModel: viewModel, tabPoints: $tabPoints, text: "Search", imageName: "magnifyingglass", tab: .search)
             
-            TabBarItem(selectedTab: $selectedTab, tabPoints: $tabPoints, text: "Profile", imageName: "person", tab: .profile)
+            TabBarItem(viewModel: viewModel, tabPoints: $tabPoints, text: "Profile", imageName: "person", tab: .profile)
             
         }
         .padding()
@@ -36,7 +37,7 @@ struct CustomTabBarView: View {
         if tabPoints.isEmpty {
             return 10
         } else {
-            switch selectedTab {
+            switch viewModel.selectedTab {
             case .home:
                 return tabPoints[0]
             case .playlists:

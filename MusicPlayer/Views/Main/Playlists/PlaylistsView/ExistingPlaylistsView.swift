@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct ExistingPlaylistsView: View {
-    
-    @Binding var isShowingCreateNewPlaylist: Bool
-    @Binding var playlists: [Playlist]
-    @Binding var searchingFor: String
+
+    @ObservedObject var viewModel: PlaylistsViewModel
     
     var body: some View {
         
@@ -19,84 +17,24 @@ struct ExistingPlaylistsView: View {
             
             newPlaylistButton
             
-             if searchResults.count == 0 {
-             noPlaylistFound
+            if viewModel.searchResults.count == 0 {
+                 
+                 playlistsNotFound
              }
 
-            ForEach(searchResults, id: \.self) { playlist in
+            ForEach(viewModel.searchResults, id: \.self) { playlist in
                 
                     HStack {
-                        if playlist.photoData == nil {
-                            Image("music")
-                                .resizable()
-                                .frame(width: 90, height: 90)
-                                .cornerRadius(15)
-                        } else {
-                            if let photoData = playlist.photoData,
-                               let image = UIImage(data: photoData) {
-                                
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .frame(width: 90, height: 90)
-                                    .cornerRadius(15)
-                            }
-                        }
-                        VStack(alignment: .leading, spacing: 0) {
-                            if playlist.playlistName == "" {
-                                Text("No name")
-                                    .foregroundColor(.white)
-                                    .font(.avenir(.medium, size: 22))
-                            } else {
-                                Text(playlist.playlistName)
-                                    .foregroundColor(.white)
-                                    .font(.avenir(.medium, size: 22))
-                            }
-                            HStack {
-                                if let description = playlist.playlistDescription, playlist.playlistDescription != ""  {
-                                    Text(description)
-                                        .foregroundColor(.lightGrayColor)
-                                        .font(.avenir(.medium, size: 17))
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .lineLimit(1...2)
-                                    
-                                } else {
-                                    Text("The playlist has no description")
-                                        .foregroundColor(.lightGrayColor)
-                                        .font(.avenir(.medium, size: 17))
-                                    
-                                    
-                                }
-                                Spacer()
-                                
-                                Button {
-                                    // go to playlist
-                                    // Тут нужно будет добавить, что еще из Firebase ,будут браться сохраненные песни для этого плейлиста
-                                    /*
-                                    PlaylistPage(playlist: playlist)
-                                     */
-                                } label: {
-                                    Image(systemName: "arrow.right")
-                                        .resizable()
-                                        .foregroundColor(.lightGrayColor)
-                                    
-                                }
-                                .frame(width: 15, height: 15,alignment: .trailing)
-                                
-                            }
-                            
-                            Divider()
-                                .background(Color.lightGrayColor)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                        }
-                        .padding(.leading)
-                        .frame(height: 90)
                         
+                        playlistImage(playlist: playlist)
+                        
+                        playlistInfo(playlist: playlist)
+     
                     }
                     .padding()
                     .frame(height: 90)
                     
                     Spacer(minLength: 20)
-                
             }
         }
         
@@ -105,72 +43,140 @@ struct ExistingPlaylistsView: View {
             Color.backgroundColor
         )
     }
-    
-    var searchResults: [Playlist] {
-        if searchingFor.isEmpty {
-            return playlists
-        } else {
-            return playlists.filter { $0.playlistName.lowercased().contains(searchingFor.lowercased()) }
-        }
-    }
+}
+
+private extension ExistingPlaylistsView {
     
     var newPlaylistButton: some View {
-          
-            Button {
-                isShowingCreateNewPlaylist = true
-            } label: {
-                HStack {
-                    ZStack {
-                        Rectangle()
-                            .fill(Color.lightGrayColor)
-                            .frame(width: 90, height: 90)
-                            .cornerRadius(15)
-                        
-                        HStack {
-                            Image(systemName: "music.note.list")
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(.black)
-                        }
-                    }
+        
+        Button {
+            viewModel.isShowingCreateNewPlaylist = true
+        } label: {
+            HStack {
+                ZStack {
+                    Rectangle()
+                        .fill(Color.lightGrayColor)
+                        .frame(width: 90, height: 90)
+                        .cornerRadius(15)
                     
-                    VStack(alignment: .leading) {
-                        Spacer(minLength: 25)
-                        Text("Create new playlist...")
-                            .font(.avenir(.medium, size: 22))
-                            .foregroundColor(.white)
-                            .frame(alignment: .center)
-                        Divider()
-                            .background(Color.lightGrayColor)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                    HStack {
+                        Image(systemName: ImageName.musicList.rawValue)
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.black)
                     }
-                    .frame(height: 90)
-                    .padding(.leading)
-                    
                 }
-
+                
+                VStack(alignment: .leading) {
+                    Spacer(minLength: 25)
+                    Text("Create new playlist...")
+                        .font(.avenir(.medium, size: 22))
+                        .foregroundColor(.white)
+                        .frame(alignment: .center)
+                    Divider()
+                        .background(Color.lightGrayColor)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                }
+                .frame(height: 90)
+                .padding(.leading)
+                
+            }
+            
         }
         .padding()
         .frame(height: 100)
     }
     
-    var noPlaylistFound: some View {
+    @ViewBuilder
+    func playlistImage(playlist: Playlist) -> some View {
+        if playlist.photoData == nil {
+            Image(ImageName.music.rawValue)
+                .resizable()
+                .frame(width: 90, height: 90)
+                .cornerRadius(15)
+        } else {
+            if let photoData = playlist.photoData,
+               let image = UIImage(data: photoData) {
+                
+                Image(uiImage: image)
+                    .resizable()
+                    .frame(width: 90, height: 90)
+                    .cornerRadius(15)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func playlistInfo(playlist: Playlist) -> some View {
+        
+        VStack(alignment: .leading, spacing: 0) {
+            if playlist.playlistName == "" {
+                Text("No name")
+                    .foregroundColor(.white)
+                    .font(.avenir(.medium, size: 22))
+            } else {
+                Text(playlist.playlistName)
+                    .foregroundColor(.white)
+                    .font(.avenir(.medium, size: 22))
+            }
+            HStack {
+                if let description = playlist.playlistDescription, playlist.playlistDescription != ""  {
+                    Text(description)
+                        .foregroundColor(.lightGrayColor)
+                        .font(.avenir(.medium, size: 17))
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(1...2)
+                    
+                } else {
+                    Text("The playlist has no description")
+                        .foregroundColor(.lightGrayColor)
+                        .font(.avenir(.medium, size: 17))
+  
+                }
+                Spacer()
+                
+                goToPlaylistButton
+                
+            }
+            
+            Divider()
+                .background(Color.lightGrayColor)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        }
+        .padding(.leading)
+        .frame(height: 90)
+    }
+    
+    
+    var goToPlaylistButton: some View {
+        
+        Button {
+            // go to playlist
+            // Тут нужно будет добавить, что еще из Firebase ,будут браться сохраненные песни для этого плейлиста
+            /*
+            PlaylistPage(playlist: $viewModel.playlist)
+             */
+             
+        } label: {
+            Image(systemName: ImageName.arrow.rawValue)
+                .resizable()
+                .foregroundColor(.lightGrayColor)
+            
+        }
+        .frame(width: 15, height: 15,alignment: .trailing)
+    }
+    
+    var playlistsNotFound: some View {
         Text("No playlist found")
             .foregroundColor(.lightGrayColor)
             .font(.avenir(.medium, size: 22))
     }
+    
 }
 
-struct Hepler_Previews: PreviewProvider {
+struct ExistingPlaylistsView_Previews: PreviewProvider {
     static var previews: some View {
-        ExistingPlaylistsView(isShowingCreateNewPlaylist: .constant(false), playlists: .constant(
-            [
-                Playlist(id: 0, playlistName: "", playlistDescription: "Checking how the playlist description works"),
-                Playlist(id: 1, playlistName: "Second", playlistDescription: "It's my second playlist"),
-                Playlist(id: 2, playlistName: "Third", playlistDescription: ""),
-                Playlist(id: 3, playlistName: "Fourth")
-            ]
-        ), searchingFor: .constant(""))
+        ExistingPlaylistsView(viewModel: PlaylistsViewModel())
     }
 }
 

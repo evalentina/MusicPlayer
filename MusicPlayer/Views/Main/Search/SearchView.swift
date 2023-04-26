@@ -26,7 +26,7 @@ struct Searchview_Previews: PreviewProvider {
             
             SearchView()
             
-            CustomTabBarView(selectedTab: .constant(.search))
+            CustomTabBarView(viewModel: TabBarViewModel())
                 .padding(.horizontal)
                 .background(Color.backgroundColor)
         }

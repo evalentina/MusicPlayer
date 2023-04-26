@@ -9,9 +9,7 @@ import SwiftUI
 
 struct PlaylistsView: View {
     
-    @State private var isShowingCreateNewPlaylist = false
-    @State private var playlists: [Playlist] = []
-    @State var searchingFor: String = ""
+    @StateObject private var viewModel = PlaylistsViewModel()
     
     init() {
         UISearchBar.appearance().overrideUserInterfaceStyle = .dark
@@ -23,45 +21,21 @@ struct PlaylistsView: View {
             
             ScrollView {
                 
-                if playlists.count == 0 {
+                if viewModel.playlists.count == 0 {
                     Spacer(minLength: 200)
                     
-                    VStack(spacing: 12) {
-                        
-                        Text("Looking for your playlists?")
-                        
-                        Text("Playlists you create will apper here.")
-                            .foregroundColor(.lightGrayColor)
-                        
-                        Button {
-                            isShowingCreateNewPlaylist = true
-                        } label: {
-                            Text("New Playlist")
-                                .padding()
-                                .background(Color.pinkColor)
-                                .clipShape(Capsule())
-                        }
-                        .padding(.top, 10)
-                    }
+                    playlistsNotFound
                     
-                    .font(.avenir(.medium, size: 20))
-                    .foregroundColor(.white)
                 } else {
-                    ExistingPlaylistsView(isShowingCreateNewPlaylist: $isShowingCreateNewPlaylist, playlists: $playlists, searchingFor: $searchingFor)
+                    ExistingPlaylistsView(viewModel: viewModel)
                 }
-                
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Text("Playlists")
-                        .font(.avenir(.heavy, size: 30))
-                        .foregroundColor(Color.white)
-                        .padding(.horizontal, 10)
-                }
+                toolBarContent()
             }
-            .searchable(text: $searchingFor)
-            .sheet(isPresented: $isShowingCreateNewPlaylist) {
-                CreateNewPlaylistView(isShowingCreateNewPlaylist: $isShowingCreateNewPlaylist, playlists: $playlists)
+            .searchable(text: $viewModel.searchingFor)
+            .sheet(isPresented: $viewModel.isShowingCreateNewPlaylist) {
+                CreateNewPlaylistView(playlistsViewModel: viewModel)
             }
             .frame(maxWidth: .infinity)
             .background(
@@ -71,6 +45,43 @@ struct PlaylistsView: View {
     }
 }
 
+private extension PlaylistsView {
+    
+    var playlistsNotFound: some View {
+        VStack(spacing: 12) {
+            
+            Text("Looking for your playlists?")
+            
+            Text("Playlists you create will apper here.")
+                .foregroundColor(.lightGrayColor)
+            
+            Button {
+                viewModel.isShowingCreateNewPlaylist = true
+            } label: {
+                Text("New Playlist")
+                    .padding()
+                    .background(Color.pinkColor)
+                    .clipShape(Capsule())
+            }
+            .padding(.top, 10)
+        }
+        
+        .font(.avenir(.medium, size: 20))
+        .foregroundColor(.white)
+    }
+    
+    @ToolbarContentBuilder
+    func toolBarContent() -> some ToolbarContent {
+        ToolbarItem(placement: .navigationBarLeading) {
+            Text("Playlists")
+                .font(.avenir(.heavy, size: 30))
+                .foregroundColor(Color.white)
+                .padding(.horizontal, 10)
+        }
+    }
+    
+}
+
 struct PlaylistsView_Previews: PreviewProvider {
     static var previews: some View {
         
@@ -78,7 +89,7 @@ struct PlaylistsView_Previews: PreviewProvider {
             
             PlaylistsView()
             
-            CustomTabBarView(selectedTab: .constant(.playlists))
+            CustomTabBarView(viewModel: TabBarViewModel())
                 .padding(.horizontal)
                 .background(Color.backgroundColor)
         }

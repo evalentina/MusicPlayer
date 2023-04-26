@@ -8,17 +8,15 @@
 import SwiftUI
 
 struct SignPageView: View {
+    
     @State var index : Double = 0
+    
     var body: some View {
         ZStack {
             Color.darkBlueColor.ignoresSafeArea(.all)
             VStack {
                 
-                Image("music2")
-                    .resizable()
-                    .frame(width: 60, height: 60)
-                    .cornerRadius(20)
-                    .offset(y: 45)
+                appImage
                 
                 ZStack {
                    
@@ -30,6 +28,18 @@ struct SignPageView: View {
                 }
             }
         }
+    }
+}
+
+private extension SignPageView {
+    
+    var appImage : some View {
+        Image(ImageName.loginImage.rawValue)
+            .resizable()
+            .frame(width: 60, height: 60)
+            .cornerRadius(20)
+            .offset(y: 45)
+        
     }
 }
 

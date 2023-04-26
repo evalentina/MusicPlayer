@@ -26,7 +26,7 @@ struct ProfileView_Previews: PreviewProvider {
             
             ProfileView()
             
-            CustomTabBarView(selectedTab: .constant(.profile))
+            CustomTabBarView(viewModel: TabBarViewModel())
                 .padding(.horizontal)
                 .background(Color.backgroundColor)
         }

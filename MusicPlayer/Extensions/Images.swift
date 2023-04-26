@@ -9,10 +9,18 @@ import SwiftUI
 
 enum ImageName: String {
     
-    case envelopeFill = "envelope.fill"
+    case envelope = "envelope.fill"
     case eyeSlash = "eye.slash.fill"
     case eye = "eye.fill"
-   // case
-   // case
+    case loginImage
+    case note = "music.note"
+    case check = "checkmark"
+    case plusFill = "plus.circle.fill"
+    case plus
+    case music
+    case camera = "camera.fill"
+    case arrow = "arrow.right"
+    case musicList = "music.note.list"
+        
 }
 

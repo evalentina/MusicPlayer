@@ -9,22 +9,22 @@ import SwiftUI
 
 struct MainView: View {
     
-    @State private var selectedTab: Tabs = .home
+    @StateObject private var viewModel = TabBarViewModel()
     
     var body: some View {
         VStack(spacing:0) {
-            TabView(selection: $selectedTab) {
-                if selectedTab.rawValue == 0 {
+            TabView(selection: $viewModel.selectedTab) {
+                if viewModel.selectedTab.rawValue == 0 {
                     HomeView()
-                } else if selectedTab.rawValue == 1 {
+                } else if viewModel.selectedTab.rawValue == 1 {
                     PlaylistsView()
-                } else if selectedTab.rawValue == 2 {
+                } else if viewModel.selectedTab.rawValue == 2 {
                     SearchView()
                 } else {
                     ProfileView()
                 }
             }
-            CustomTabBarView(selectedTab: $selectedTab)
+            CustomTabBarView(viewModel: viewModel)
                 .padding(.horizontal)
                 .background(Color.backgroundColor)
         }
