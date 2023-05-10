@@ -15,8 +15,18 @@ struct CreateNewPlaylistView: View {
     
     @State var selectedItem: PhotosPickerItem? = nil
     
+    init(playlistsViewModel: PlaylistsViewModel) {
+        self.playlistsViewModel = playlistsViewModel
+        
+        // MARK: NavigationBar color while scrolling
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.backgroundColor = .newPlaylistColor
+        UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+    }
+    
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 
                 Spacer(minLength: 70)
@@ -37,7 +47,9 @@ struct CreateNewPlaylistView: View {
                     
                     addSongButton
                     
-                    ReusableSongsCard(viewModel: viewModel)
+                    ForEach(viewModel.addedSongs, id: \.self) { song in
+                        ReusableSongCard(song: song, backgroundCardColor: .newPlaylistColor)
+                    }
                     
                 }
                 .padding(.horizontal, 20)
@@ -159,10 +171,8 @@ private extension CreateNewPlaylistView {
             Button {
                 
                 playlistsViewModel.playlists.append(Playlist(id: 0, playlistName: viewModel.playlistName, playlistDescription: playlistDescription as? String, photoData: viewModel.selectedPhotoData))
-                
-                playlistsViewModel.isShowingCreateNewPlaylist.toggle()
-                
                 viewModel.savePlaylist()
+                playlistsViewModel.isShowingCreateNewPlaylist.toggle()
                 
             } label: {
                 Text("Done")

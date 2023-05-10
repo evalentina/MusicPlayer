@@ -7,27 +7,90 @@
 
 import Foundation
 
-struct Song: Identifiable, Hashable {
-    var id: Int
-    var songName: String
-    var author: String
-    var songImageData: String?
-    
+// MARK: - Song
+struct Song: Codable {
+    let tracks: Tracks
 }
-extension Song {
-    
-    static var dummy: Song {
-        .init(id: 0, songName: "Low",author: "Lenny Kravitz", songImageData: "Lenny")
-    }
-    static var dummySongs: [Song] {
-        .init(
-            [Song(id: 0, songName: "Low",author: "Lenny Kravitz", songImageData: "Lenny"),
-              Song(id: 1, songName: "Who is it?",author: "Michael Jackson", songImageData: "off"),
-              Song(id: 2, songName: "Off the wall",author: "Michael Jackson", songImageData: "off"),
-              Song(id: 3, songName: "On the floor",author: "Michael Jackson", songImageData: "off"),
-              Song(id: 4, songName: "Who is it?",author: "Michael Jackson")
-        ])
+
+// MARK: - Tracks
+struct Tracks: Codable {
+    let track: [Track]
+    let attr: TracksAttr
+
+    enum CodingKeys: String, CodingKey {
+        case track
+        case attr = "@attr"
     }
 }
+
+// MARK: - TracksAttr
+struct TracksAttr: Codable {
+    let tag, page, perPage, totalPages: String
+    let total: String
+}
+
+// MARK: - Track
+struct Track: Codable, Hashable {
+    let name, duration, mbid: String
+    let url: String
+    let streamable: Streamable
+    let artist: Artist
+    let image: [ImageTrack]
+    let attr: TrackAttr
+
+    enum CodingKeys: String, CodingKey {
+        case name, duration, mbid, url, streamable, artist, image
+        case attr = "@attr"
+    }
+    
+    static func == (lhs: Track, rhs: Track) -> Bool {
+                return lhs.mbid == rhs.mbid
+            
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(mbid)
+    }
+}
+
+// MARK: - Artist
+struct Artist: Codable {
+    let name, mbid: String
+    let url: String
+}
+
+// MARK: - TrackAttr
+struct TrackAttr: Codable {
+    let rank: String
+}
+
+// MARK: - Image
+struct ImageTrack: Codable {
+    let text: String
+    let size: Size
+
+    enum CodingKeys: String, CodingKey {
+        case text = "#text"
+        case size
+    }
+}
+
+enum Size: String, Codable {
+    case extralarge = "extralarge"
+    case large = "large"
+    case medium = "medium"
+    case small = "small"
+}
+
+// MARK: - Streamable
+struct Streamable: Codable {
+    let text, fulltrack: String
+
+    enum CodingKeys: String, CodingKey {
+        case text = "#text"
+        case fulltrack
+    }
+}
+
+
 
 

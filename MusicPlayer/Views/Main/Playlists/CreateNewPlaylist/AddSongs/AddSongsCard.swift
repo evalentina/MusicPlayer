@@ -1,16 +1,15 @@
 //
-//  SongCard.swift
+//  AddSongCardView.swift
 //  MusicPlayer
 //
-//  Created by Валентина Евдокимова on 22.04.2023.
+//  Created by Валентина Евдокимова on 27.04.2023.
 //
 
 import SwiftUI
 
 struct AddSongCard: View {
     
-    var song: Song
-    @ObservedObject var addSongsViewModel : AddSongsViewModel
+    var song: Track
     @ObservedObject var createViewModel: CreateNewPlaylistViewModel
     @StateObject var viewModel = AddSongCardViewModel()
     
@@ -35,29 +34,17 @@ struct AddSongCard: View {
 private extension AddSongCard {
     
     var songImage: some View {
-        ZStack {
-            if let imageName = song.songImageData {
-                Image(imageName)
-                    .resizable()
-                    .cornerRadius(50)
-                    .frame(width: 50, height: 50)
-            } else {
-                ZStack {
-                    Circle()
-                        .fill(Color.lightGrayColor)
-                        .frame(width: 50, height: 50)
-                    Image(systemName: ImageName.note.rawValue)
-                        .foregroundColor(.black)
-                }
-            }
-        }
+        Image(ImageName.music.rawValue)
+            .resizable()
+            .frame(width: 50, height: 50)
+            .cornerRadius(50)
     }
     
     var songInfo: some View {
         VStack(alignment: .leading) {
-            Text(song.songName)
+            Text(song.name)
                 .font(.avenir(.medium, size: 17))
-            Text(song.author)
+            Text(song.artist.name)
                 .font(.avenir(.medium, size: 14))
                 .foregroundColor(.lightGrayColor)
         }
@@ -69,7 +56,7 @@ private extension AddSongCard {
             if  viewModel.isSongAdded == true {
                 createViewModel.addedSongs.append(song)
             } else {
-                let index = createViewModel.addedSongs.firstIndex(where: {$0.songName == $0.songName})
+                let index = createViewModel.addedSongs.firstIndex(where: {$0.mbid == $0.mbid})
                 if let index = index {
                     createViewModel.addedSongs.remove(at: index)
                 }
@@ -87,12 +74,12 @@ private extension AddSongCard {
                     .foregroundColor(.pinkColor)
             }
         }
-    }    
+    }
 }
 
 struct SongCard_Previews: PreviewProvider {
     static var previews: some View {
-        AddSongCard(song: .dummy, addSongsViewModel: AddSongsViewModel(), createViewModel: CreateNewPlaylistViewModel())
+        AddSongCard(song: Track(name: "Name", duration: "", mbid: "", url: "", streamable: Streamable(text: "", fulltrack: ""), artist: Artist(name: "Artist", mbid: "", url: ""), image: [], attr: TrackAttr(rank: "")), createViewModel: CreateNewPlaylistViewModel())
             .padding()
             .previewLayout(.sizeThatFits)
     }

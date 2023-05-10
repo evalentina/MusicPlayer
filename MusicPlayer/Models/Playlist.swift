@@ -16,12 +16,6 @@ struct Playlist: Identifiable, Hashable {
 }
 
 extension Playlist {
-    /*
-    static var dummy: Playlist {
-        .init(id: <#T##Int#>, playlistName: <#T##String#>)
-    }
-    */
-    
     static var dummyPlaylists: [Playlist] = [
             Playlist(id: 0, playlistName: "First", playlistDescription: "Checking how the playlist description works"),
             Playlist(id: 1, playlistName: "Second", playlistDescription: "It's my second playlist"),

@@ -10,10 +10,10 @@ import SwiftUI
 struct PlaylistPage: View {
     
     @Binding var playlist: Playlist
-    @Binding var songs: [Song]?
+    @Binding var songs: [Track]?
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 
                 VStack(spacing: 30) {
@@ -28,9 +28,7 @@ struct PlaylistPage: View {
                     playlistDescription
                     
                     Divider()
-                        .background(Color.white)
-                    // Тут надо испрвавить CreateNewPlaylist скорее всего используя протокол 
-                    ReusableSongsCard(viewModel: CreateNewPlaylistViewModel())
+                        .background(Color.white)                     
                     
                 }
                 .padding(.horizontal, 20)

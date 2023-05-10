@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Color.backgroundColor.edgesIgnoringSafeArea(.all)
                 ScrollView {

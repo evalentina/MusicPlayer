@@ -6,14 +6,17 @@
 //
 
 import Foundation
+protocol AddSongs {
+    var addedSongs: [Track] { get }
+}
 
-final class CreateNewPlaylistViewModel: ObservableObject {
+final class CreateNewPlaylistViewModel: ObservableObject, AddSongs {
     
     @Published var selectedPhotoData: Data? = nil
     @Published var playlistName: String = ""
     @Published var description: String = ""
     @Published var isShowingAddSong: Bool = false
-    @Published var addedSongs: [Song] = []
+    @Published var addedSongs: [Track] = []
     
     func savePlaylist() {
         

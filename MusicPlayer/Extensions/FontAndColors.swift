@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 extension Color {
     
@@ -42,7 +43,26 @@ extension Color {
     }
     
     static var newPlaylistGrayColor : Color {
-        return Color("NewPlaylistGrayColor")
+        return Color("NewPlaylistColor")
+    }
+    
+    
+}
+
+extension Color {
+    static var random: Color {
+        return Color(
+            red: .random(in: 0...1),
+            green: .random(in: 0...1),
+            blue: .random(in: 0...1)
+        )
+    }
+}
+
+// MARK: NavigationBar color while scrolling
+extension UIColor {
+    static var newPlaylistColor : UIColor {
+        return UIColor(named: "NewPlaylistColor") ?? .gray
     }
 }
 

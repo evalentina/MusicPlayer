@@ -18,9 +18,14 @@ enum ImageName: String {
     case plusFill = "plus.circle.fill"
     case plus
     case music
+    case ellipsis
     case camera = "camera.fill"
     case arrow = "arrow.right"
     case musicList = "music.note.list"
+    case person = "person.circle"
+    case apple
+    case pause = "pause.fill"
+    case forward = "forward.fill"
         
 }
 

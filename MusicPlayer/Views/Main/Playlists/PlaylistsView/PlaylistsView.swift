@@ -14,10 +14,16 @@ struct PlaylistsView: View {
     init() {
         UISearchBar.appearance().overrideUserInterfaceStyle = .dark
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemPink], for: .normal)
+        
+        // MARK: NavigationBar color while scrolling
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.backgroundColor = .black
+        UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             
             ScrollView {
                 

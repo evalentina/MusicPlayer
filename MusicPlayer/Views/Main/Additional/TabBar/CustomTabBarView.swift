@@ -25,7 +25,7 @@ struct CustomTabBarView: View {
             TabBarItem(viewModel: viewModel, tabPoints: $tabPoints, text: "Profile", imageName: "person", tab: .profile)
             
         }
-        .padding()
+        //.padding()
         .frame(height: 90)
         .background(
             Color.signColor
