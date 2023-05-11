@@ -97,6 +97,6 @@ private extension PlaylistPage {
 
 struct PlaylistPage_Previews: PreviewProvider {
     static var previews: some View {
-        PlaylistPage(playlist:.constant( Playlist(id: 0, playlistName: "Name", playlistDescription: "Description")), songs: .constant(nil))
+        PlaylistPage(playlist:.constant( Playlist( playlistName: "Name", playlistDescription: "Description", songs: [], userUID: "12")), songs: .constant(nil))
     }
 }

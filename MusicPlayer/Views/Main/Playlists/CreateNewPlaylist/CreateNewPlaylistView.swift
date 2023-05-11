@@ -170,8 +170,10 @@ private extension CreateNewPlaylistView {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
                 
-                playlistsViewModel.playlists.append(Playlist(id: 0, playlistName: viewModel.playlistName, playlistDescription: playlistDescription as? String, photoData: viewModel.selectedPhotoData))
                 viewModel.savePlaylist()
+                
+                playlistsViewModel.playlists.append(Playlist(playlistName: viewModel.playlistName, playlistDescription: viewModel.description, songs: viewModel.addedSongs, photoData: viewModel.selectedPhotoData, userUID: viewModel.settings.userID))
+                
                 playlistsViewModel.isShowingCreateNewPlaylist.toggle()
                 
             } label: {
