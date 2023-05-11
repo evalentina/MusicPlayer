@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Playlist: Identifiable, Hashable {
+struct Playlist: Identifiable, Hashable, Codable {
     var id: Int
     var playlistName: String
     var playlistDescription: String?

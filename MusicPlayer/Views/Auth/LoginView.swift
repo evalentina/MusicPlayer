@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     
     @StateObject private var viewModel = LoginViewModel()
+    // MARK: LoginView or SignInView
     @Binding var index : Double
     
     var body: some View {
@@ -48,11 +49,14 @@ struct LoginView: View {
             
             loginButton
         }
+        // MARK: When user data is entered incorrectly
+        .alert(viewModel.errorMessage, isPresented: $viewModel.isShowingLoginError, actions: {})
     }
 }
 
 private extension LoginView {
     
+    //MARK: The main text is login, switching between Login and Sign In
     var loginText : some View {
         VStack {
             Text("Login")
@@ -70,6 +74,7 @@ private extension LoginView {
         .padding(.top, 30)
     }
     
+    // MARK: Email Text Field
     var emailTextField : some View {
         HStack {
             Image(systemName: ImageName.envelope.rawValue)
@@ -87,6 +92,7 @@ private extension LoginView {
         }
     }
     
+    // MARK: Password Text Field
     var passwordTextField : some View {
         HStack {
             Button {
@@ -123,6 +129,7 @@ private extension LoginView {
         }
     }
     
+    // MARK: Forgot your Password Button
     var forgotPassword : some View {
         HStack {
             Spacer()
@@ -138,14 +145,18 @@ private extension LoginView {
         .frame(height: 55)
     }
     
+    // MARK: Login Button - go to the main page
     var loginButton : some View {
         Button {
-            
+            viewModel.loginUser()
         } label: {
             Text("Login")
                 .font(.avenir(.medium, size: 18))
                 .frame(width: 100, height: 50)
                 .foregroundColor(.white)
+                .disabled(viewModel.isButtonDisabled())
+                .opacity(viewModel.isButtonDisabled() ? 0.5 : 1)
+                .animation(.easeIn(duration: 0.4), value: viewModel.isButtonDisabled())
                 .background(Color.pinkColor)
                 .clipShape(Capsule())
                 .shadow(color: .darkBlueColor.opacity(0.3), radius: 15 , x:5, y: 5)

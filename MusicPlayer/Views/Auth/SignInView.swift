@@ -9,8 +9,9 @@ import SwiftUI
 
 struct SignInView: View {
     
-    @Binding var index : Double
     @StateObject private var viewModel = SignInViewModel()
+    // MARK: LoginView or SignInView
+    @Binding var index : Double
     
     var body: some View {
         
@@ -53,12 +54,15 @@ struct SignInView: View {
             
             signInButton
         }
+        // MARK: When user data is entered incorrectly
+        .alert(viewModel.errorMessage, isPresented: $viewModel.isShowingLoginError, actions: {})
     }
     
 }
 
 private extension SignInView {
     
+    //MARK: The main text is login, switching between Login and Sign In
     var signInText : some View {
         VStack {
             Text("Sign in")
@@ -76,6 +80,7 @@ private extension SignInView {
         .padding(.top, 30)
     }
     
+    // MARK: Email Text Field
     var emailTextField: some View {
         HStack {
             Image(systemName: ImageName.envelope.rawValue)
@@ -94,6 +99,7 @@ private extension SignInView {
         }
     }
     
+    // MARK: Password Text Field
     var passwordTextField: some View {
         HStack {
             Button {
@@ -111,6 +117,7 @@ private extension SignInView {
             if viewModel.isSecured {
                 
                 SecureField("", text: $viewModel.password)
+                    .textContentType(.newPassword)
                     .placeholder(when: viewModel.password.isEmpty, alignment: .leading) {
                         Text("Enter your password...").foregroundColor(.lightGrayColor)
                             .font(.avenir(.medium, size: 20))
@@ -130,6 +137,7 @@ private extension SignInView {
         }
     }
     
+    // MARK: Repeat Password Text Field
     var repeatPasswordTextField: some View {
         HStack {
             Button {
@@ -167,14 +175,18 @@ private extension SignInView {
         .frame(height: 27)
     }
     
+    // MARK: Sign in Button - go to the main page
     var signInButton: some View {
         Button {
-            
+            viewModel.registerUser()
         } label: {
             Text("Sign in")
                 .font(.avenir(.medium, size: 18))
                 .frame(width: 100, height: 50)
                 .foregroundColor(.white)
+                .disabled(viewModel.isButtonDisabled())
+                .opacity(viewModel.isButtonDisabled() ? 0.5 : 1)
+                .animation(.easeIn(duration: 0.4), value: viewModel.isButtonDisabled())
                 .background(Color.pinkColor)
                 .clipShape(Capsule())
                 .shadow(color: .darkBlueColor.opacity(0.3), radius: 15 , x:5, y: 5)

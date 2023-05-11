@@ -10,9 +10,8 @@ import SDWebImageSwiftUI
 
 struct ProfileView: View {
     
-    var menuItems: [MenuItems] = [.playlists, .favorites, .songs]
-    //var myTypes: [Any] = [SearchView.self, CreateNewPlaylistView.self]
-    @StateObject var viewModel = ProfileViewModel()
+    private var menuItems: [MenuItems] = [.playlists, .favorites, .songs]
+    @StateObject private var viewModel = ProfileViewModel()
 
     var body: some View {
         NavigationStack {
@@ -31,17 +30,7 @@ struct ProfileView: View {
             .background(Color.backgroundColor)
         }
     }
-    
-    
-    
 }
-
-enum MenuItems: String {
-    case playlists
-    case songs
-    case favorites
-}
-
 
 private extension ProfileView {
     
@@ -90,7 +79,7 @@ private extension ProfileView {
         
         VStack(alignment: .center) {
             
-            WebImage(url: viewModel.user?.userImageURL)
+            WebImage(url: URL(string: viewModel.user?.userImageURL ?? ""))
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 130, height: 130)
@@ -102,7 +91,7 @@ private extension ProfileView {
                 .font(.avenir(.medium, size: 25))
                 .foregroundColor(.white)
             
-            Text(viewModel.user?.description ?? "")
+            Text(viewModel.user?.userBio ?? "")
                 .font(.avenir(.medium, size: 18))
                 .foregroundColor(.gray)
         }
@@ -119,6 +108,12 @@ private extension ProfileView {
     }
     
     // MARK: Navigation for list
+    enum MenuItems: String {
+        case playlists
+        case songs
+        case favorites
+    }
+    
     func buildView(items: [MenuItems], index: Int) -> AnyView {
         switch items[index].self {
         case .playlists:
@@ -129,8 +124,6 @@ private extension ProfileView {
             return AnyView(SearchView())
         }
     }
-    
-    
 }
 
 struct ProfileView_Previews: PreviewProvider {

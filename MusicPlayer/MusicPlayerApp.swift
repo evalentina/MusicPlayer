@@ -6,12 +6,21 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct MusicPlayerApp: App {
+    @AppStorage("log_status") var logStatus: Bool = false
+    init() {
+        FirebaseApp.configure() 
+    }
     var body: some Scene {
         WindowGroup {
-            MainView()
+            if logStatus {
+                MainView()
+            } else {
+                SignPageView(loginViewModel: LoginViewModel(), signInViewModel: SignInViewModel())
+            }
         }
     }
 }

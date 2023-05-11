@@ -9,7 +9,11 @@ import SwiftUI
 
 struct SignPageView: View {
     
+    // MARK: LoginView or SignInView
     @State var index : Double = 0
+    
+    @ObservedObject var loginViewModel : LoginViewModel
+    @ObservedObject var signInViewModel: SignInViewModel
     
     var body: some View {
         ZStack {
@@ -28,23 +32,28 @@ struct SignPageView: View {
                 }
             }
         }
+        .overlay(content: {
+            // MARK: LoadingView after the Login button has been pressed, while the user's data is being loaded
+            loginViewModel.isLoading ? LoadingView(isShowing: $loginViewModel.isLoading) : nil
+            signInViewModel.isLoading ? LoadingView(isShowing: $signInViewModel.isLoading) : nil
+        })
     }
 }
 
 private extension SignPageView {
     
+    // MARK: Apple Music icon
     var appImage : some View {
         Image(ImageName.loginImage.rawValue)
             .resizable()
             .frame(width: 60, height: 60)
             .cornerRadius(20)
             .offset(y: 45)
-        
     }
 }
 
 struct SignPageView_Previews: PreviewProvider {
     static var previews: some View {
-        SignPageView()
+        SignPageView(loginViewModel: LoginViewModel(), signInViewModel: SignInViewModel())
     }
 }

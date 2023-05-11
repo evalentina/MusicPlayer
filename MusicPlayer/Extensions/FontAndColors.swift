@@ -59,6 +59,11 @@ extension Color {
     }
 }
 
+enum AppStorageInfo: String {
+    case userID = "user_ID"
+    case logStatus = "log_status"
+}
+
 // MARK: NavigationBar color while scrolling
 extension UIColor {
     static var newPlaylistColor : UIColor {

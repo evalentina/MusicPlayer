@@ -13,7 +13,7 @@ struct LoadingView: View {
     
     var body: some View {
         ZStack {
-            Color.backgroundColor
+            Color.backgroundColor.ignoresSafeArea()
             if isShowing {
                 ProgressView()
                     .padding(15)
@@ -21,7 +21,6 @@ struct LoadingView: View {
                     .background(Color.backgroundColor)
             }
         }
-        .ignoresSafeArea()
         .animation(.linear(duration: 0.2), value: isShowing)
     }
 }
